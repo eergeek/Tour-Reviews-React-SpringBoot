@@ -11,13 +11,24 @@ public class Application {
         ApplicationContext context = SpringApplication.run(Application.class, args);
         System.out.println("==================== After Application Start ===================");
 
-        demoSingleton(context);
+//        demoSingleton(context);
+        demoPrototype(context);
     }
 
     private static void demoSingleton(ApplicationContext context) {
         MySingletonComponent component1 = context.getBean(MySingletonComponent.class);
         MySingletonComponent component2 = context.getBean(MySingletonComponent.class);
         MySingletonComponent component3 = context.getBean(MySingletonComponent.class);
+
+        System.out.println(component1);
+        System.out.println(component2);
+        System.out.println(component3);
+    }
+
+    private static void demoPrototype(ApplicationContext context) {
+        MyPrototypeComponent component1 = context.getBean(MyPrototypeComponent.class);
+        MyPrototypeComponent component2 = context.getBean(MyPrototypeComponent.class);
+        MyPrototypeComponent component3 = context.getBean(MyPrototypeComponent.class);
 
         System.out.println(component1);
         System.out.println(component2);
