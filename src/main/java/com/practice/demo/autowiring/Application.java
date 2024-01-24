@@ -21,5 +21,9 @@ public class Application {
 
         System.out.println("====== TRANSFER ==========");
         bankService.transfer(0, 1, 5_000);
+
+        System.out.println("====== Value Injection Direct ======");
+        ValueInjectionYmlDirect valueInjection = context.getBean(ValueInjectionYmlDirect.class);
+        valueInjection.getInjectedValues();
     }
 }
