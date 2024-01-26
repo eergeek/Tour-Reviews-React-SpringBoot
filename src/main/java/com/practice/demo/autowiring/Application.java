@@ -9,21 +9,11 @@ public class Application {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Application.class, args);
 
-        BankServiceImpl bankService = context.getBean(BankServiceImpl.class);
-
-        bankService.mapInjectionAutowire(); // Collection / Map Auto wiring
-
-        System.out.println("====== DEPOSIT =========");
-        bankService.deposit(0, 10_000);
-
-        System.out.println("====== WITHDRAW =========");
-        bankService.withdraw(0, 20_000_000);
-
-        System.out.println("====== TRANSFER ==========");
-        bankService.transfer(0, 1, 5_000);
-
-        System.out.println("====== Value Injection Direct ======");
+        System.out.println("====== Value Injection via Properties file and SpEL Direct ======");
         ValueInjectionYmlDirect valueInjection = context.getBean(ValueInjectionYmlDirect.class);
         valueInjection.getInjectedValues();
+
+        // Spring Expression Language Injected Values
+        context.getBean(SpELBean.class).printInjectedValues();
     }
 }
