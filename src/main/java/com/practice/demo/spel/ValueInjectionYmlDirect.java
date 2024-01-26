@@ -1,4 +1,4 @@
-package com.practice.demo.autowiring;
+package com.practice.demo.spel;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
