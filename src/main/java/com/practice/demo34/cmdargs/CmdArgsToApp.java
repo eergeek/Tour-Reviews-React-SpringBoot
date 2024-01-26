@@ -1,4 +1,4 @@
-package com.practice.demo.cmdargs;
+package com.practice.demo34.cmdargs;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
