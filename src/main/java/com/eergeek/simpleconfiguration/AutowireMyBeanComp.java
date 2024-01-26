@@ -11,7 +11,7 @@ public class AutowireMyBeanComp {
 
     // if autowired this method at startup MyBean would be initialized with below values
     @Autowired
-    public void getMyBeanData() {
+    public void setMyBeanData() {
         myBean.setUsername("DONNER Man");
         myBean.setScore(1000);
     }
