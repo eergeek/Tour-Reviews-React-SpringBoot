@@ -1,0 +1,17 @@
+apiserver:
+  address: 189.132.23.12
+  port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+apiserver:
+  port: 8000
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+apiserver:
+  port: 9000
