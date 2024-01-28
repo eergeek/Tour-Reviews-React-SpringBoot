@@ -16,5 +16,6 @@ public class Application {
         EmployeeService employeeService = context.getBean(EmployeeService.class);
 
         employeeService.queryEmployees();
+        employeeService.modifyEmployeesTable();
     }
 }
