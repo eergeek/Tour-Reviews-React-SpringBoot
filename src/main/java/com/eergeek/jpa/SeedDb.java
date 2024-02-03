@@ -1,4 +1,4 @@
-package com.eergeek;
+package com.eergeek.jpa;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

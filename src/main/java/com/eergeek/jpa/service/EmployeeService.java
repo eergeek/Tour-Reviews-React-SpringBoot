@@ -1,14 +1,12 @@
-package com.eergeek.service;
+package com.eergeek.jpa.service;
 
-import com.eergeek.entity.Employee;
-import com.eergeek.repos.EmployeeRepository;
+import com.eergeek.jpa.entity.Employee;
+import com.eergeek.jpa.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class EmployeeService {

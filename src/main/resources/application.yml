@@ -24,3 +24,12 @@ spring:
 #    password:
 #  jpa:
 #    database-platform: org.hibernate.dialect.H2Dialect
+
+# MONGO DEFAULT CONNECTION STRING NOT REQUIRED
+# as spring will by default try to connect to it
+  data:
+    mongodb:
+      host: 172.30.253.201  # hostname -I | cut -f 1 -d ' '
+      port: 27017
+      database: test
+#      uri: mongodb://localhost:27017/test

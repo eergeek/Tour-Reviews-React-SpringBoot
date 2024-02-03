@@ -1,4 +1,4 @@
-package com.eergeek.entity;
+package com.eergeek.jpa.entity;
 
 import jakarta.persistence.*;
 
