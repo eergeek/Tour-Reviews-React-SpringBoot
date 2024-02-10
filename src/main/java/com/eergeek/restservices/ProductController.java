@@ -5,12 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -32,12 +31,14 @@ public class ProductController {
                 4L, new Product(4, "Old Cars", 100),
                 5L, new Product(5, "Air plane", 10)
         );
+
+        logger.info("Static Block Loaded {}", catalog);
     }
 
     @GetMapping(value = "/hi")
     @ResponseBody
     public String welcome() {
-         return "Hey Welcome";
+        return "Hey Welcome";
     }
 
     @GetMapping(value = "/productsV1")
@@ -54,4 +55,32 @@ public class ProductController {
         return ResponseEntity.ok(catalog.values());
     }
 
+    @GetMapping(value = "/productsV2/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable long id) {
+        Product product = catalog.get(id);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+
+    /***
+     *
+     * @param price
+     * @return products having price greater than minpirce
+     * URL: http://localhost:8080/simple/productsV2?minprice=10000
+     */
+    @GetMapping(value = "/productsV2")
+    public ResponseEntity<List<Product>> getProductsWithMinPrice(
+            @RequestParam(value = "minprice", required = false, defaultValue = "0")
+            double price) {
+
+        List<Product> products = catalog.values().stream()
+                .filter(product -> product.price() > price)
+                .toList();
+
+        return ResponseEntity.ok(products);
+    }
 }

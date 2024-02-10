@@ -1,5 +1,11 @@
 package com.eergeek.restservices;
 
+record Product(int id, String description, double price) {
+
+}
+
+/***
+
 public class Product {
     private int id;
     private String description;
@@ -44,3 +50,5 @@ public class Product {
                 '}';
     }
 }
+ *
+ */

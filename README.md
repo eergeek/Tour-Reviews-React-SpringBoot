@@ -17,3 +17,22 @@
         return catalog.values();
         }
 ```
+
+
+## Path Variable
+#### Below snippet would work with url like the one below, notice `/productsV2/1`
+**http://localhost:8080/simple/productsV2/1**
+```java
+@GetMapping(value = "/productsV2/{id}")
+public ResponseEntity<Product> getProduct(@PathVariable long id) {}
+```
+
+## Optional Request Parameters in URL body
+#### Where as below snippet has *Optional* Request parameter *minprice*
+#### URL: http://localhost:8080/simple/productsV2?minprice=10000
+```java
+    @GetMapping(value = "/productsV2")
+    public ResponseEntity<List<Product>> getProductsWithMinPrice(
+            @RequestParam(value = "minprice", required = false, defaultValue = "0")
+            double price) { }
+```
