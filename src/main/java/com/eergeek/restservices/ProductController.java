@@ -2,38 +2,25 @@ package com.eergeek.restservices;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/simple")
+@CrossOrigin
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    private Map<Long, Product> catalog = new HashMap<>();
-
-    /**
-     * This is a static block to initialize the catalog map
-     * NOTE: THIS BLOCK IS OUTSIDE ANY METHOD, YET WORKS
-     */ {
-        catalog = Map.of(
-                1L, new Product(1, "Jockey Shoes", 3000),
-                2L, new Product(2, "Black phone", 30000),
-                3L, new Product(3, "Headphone", 400),
-                4L, new Product(4, "Old Cars", 100),
-                5L, new Product(5, "Air plane", 10)
-        );
-
-        logger.info("Static Block Loaded {}", catalog);
-    }
+    @Autowired
+    ProductRepository catalog;
 
     @GetMapping(value = "/hi")
     @ResponseBody
@@ -45,19 +32,19 @@ public class ProductController {
     @ResponseBody
     public Collection<Product> getProductsV1() {
         logger.info("Handling /simple/productsV1 request");
-        return catalog.values();
+        return catalog.getAll();
     }
 
     @GetMapping(value = "/productsV2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<Product>> getProductsV2() {
         logger.info("Handling /simple/productsV2 request");
 
-        return ResponseEntity.ok(catalog.values());
+        return ResponseEntity.ok(catalog.getAll());
     }
 
     @GetMapping(value = "/productsV2/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Product product = catalog.get(id);
+        Product product = catalog.getById(id);
         if (product != null) {
             return ResponseEntity.ok(product);
         }
@@ -77,10 +64,32 @@ public class ProductController {
             @RequestParam(value = "minprice", required = false, defaultValue = "0")
             double price) {
 
-        List<Product> products = catalog.values().stream()
+        List<Product> products = catalog.getAll().stream()
                 .filter(product -> product.price() > price)
                 .toList();
 
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping(value = "/productsV2/addnew")
+    public ResponseEntity<Boolean> addProduct(@RequestBody Product product) {
+        boolean insertedProduct = catalog.insert(product);
+        return insertedProduct
+                ? ResponseEntity.created(URI.create("addnew/")).body(insertedProduct)
+                : ResponseEntity.internalServerError().build();
+    }
+
+    @DeleteMapping(value = "/productsV2")
+    public ResponseEntity<Boolean> deleteProduct(
+            @RequestParam(value = "deleteId", required = true, defaultValue = "")
+            long id) {
+        boolean deleted = catalog.delete(id);
+        return deleted ? ResponseEntity.ok(deleted) : ResponseEntity.notFound().build();
+    }
+
+    @PutMapping(value = "productsV2/update")
+    public ResponseEntity<Boolean> updateProduct(@RequestBody Product updatedProduct) {
+        boolean updated = catalog.update(updatedProduct);
+        return updated ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 }

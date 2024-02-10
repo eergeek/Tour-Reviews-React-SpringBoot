@@ -1,7 +1,14 @@
 package com.eergeek.restservices;
 
-record Product(int id, String description, double price) {
+record Product(long id, String description, double price) {
+    // Constructor without id field
+    public Product(String description, double price) {
+        this(0, description, price); // Assuming 0 as a default value for id
+    }
 
+    public Product withId(Long id) {
+        return new Product(id, this.description, this.price);
+    }
 }
 
 /***
@@ -11,7 +18,7 @@ public class Product {
     private String description;
     private double price;
 
-    public Product(int id, String description, double price) {
+        public Product(int id, String description, double price) {
         this.id = id;
         this.description = description;
         this.price = price;
